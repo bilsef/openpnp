@@ -27,7 +27,6 @@ import org.openpnp.machine.reference.ReferenceFeeder;
 import org.openpnp.machine.reference.feeder.wizards.SchultzFeederConfigurationWizard;
 import org.openpnp.model.Configuration;
 import org.openpnp.model.Location;
-import org.openpnp.model.Part;
 import org.openpnp.spi.Actuator;
 import org.openpnp.spi.Nozzle;
 import org.openpnp.spi.PropertySheetHolder;
@@ -37,105 +36,123 @@ import org.pmw.tinylog.Logger;
 import org.simpleframework.xml.Attribute;
 
 public class SchultzFeeder extends ReferenceFeeder {
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected String actuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType actuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected double actuatorValue;
 
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected String postPickActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType postPickActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String feedCountActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType feedCountActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String clearCountActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType clearCountActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String pitchActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType pitchActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String togglePitchActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType togglePitchActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String statusActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType statusActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String idActuatorName;
-    
+
     @Deprecated
-    @Attribute(required=false)
+    @Attribute(required = false)
     protected Actuator.ActuatorValueType idActuatorType = null;
-    
-    @Attribute(required=false)
+
+    @Attribute(required = false)
     protected String fiducialPart;
-    
+
     @Override
     public Location getPickLocation() throws Exception {
         return location;
     }
 
     public SchultzFeeder() {
-        Configuration.get().addListener(new ConfigurationListener.Adapter() {
-            @Override
-            public void configurationLoaded(Configuration configuration) throws Exception {
-                // Migrate actuator value types.
-                if (actuatorType != null) { 
-                    Actuator actuator = Configuration.get().getMachine().getActuatorByName(actuatorName);
-                    AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
-                    actuatorType = null;
-                }
-                if (postPickActuatorType != null) {
-                    Actuator actuator = Configuration.get().getMachine().getActuatorByName(postPickActuatorName);
-                    AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
-                    postPickActuatorType = null;
-                }
-                if (clearCountActuatorType != null) {
-                    Actuator actuator = Configuration.get().getMachine().getActuatorByName(clearCountActuatorName);
-                    AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
-                    clearCountActuatorType = null;
-                }
-                if (togglePitchActuatorType != null) {
-                    Actuator actuator = Configuration.get().getMachine().getActuatorByName(togglePitchActuatorName);
-                    AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
-                    togglePitchActuatorType = null;
-                }
-                // NOTE: all the other actuator types are actually read only, no need to migrate.
-                feedCountActuatorType = null;
-                pitchActuatorType = null;
-                statusActuatorType = null;
-                idActuatorType = null;
-            }
-        });
+        Configuration.get()
+                     .addListener(new ConfigurationListener.Adapter() {
+                         @Override
+                         public void configurationLoaded(Configuration configuration)
+                                 throws Exception {
+                             // Migrate actuator value types.
+                             if (actuatorType != null) {
+                                 Actuator actuator = Configuration.get()
+                                                                  .getMachine()
+                                                                  .getActuatorByName(actuatorName);
+                                 AbstractActuator.suggestValueType(actuator,
+                                         Actuator.ActuatorValueType.Double);
+                                 actuatorType = null;
+                             }
+                             if (postPickActuatorType != null) {
+                                 Actuator actuator = Configuration.get()
+                                                                  .getMachine()
+                                                                  .getActuatorByName(
+                                                                          postPickActuatorName);
+                                 AbstractActuator.suggestValueType(actuator,
+                                         Actuator.ActuatorValueType.Double);
+                                 postPickActuatorType = null;
+                             }
+                             if (clearCountActuatorType != null) {
+                                 Actuator actuator = Configuration.get()
+                                                                  .getMachine()
+                                                                  .getActuatorByName(
+                                                                          clearCountActuatorName);
+                                 AbstractActuator.suggestValueType(actuator,
+                                         Actuator.ActuatorValueType.Double);
+                                 clearCountActuatorType = null;
+                             }
+                             if (togglePitchActuatorType != null) {
+                                 Actuator actuator = Configuration.get()
+                                                                  .getMachine()
+                                                                  .getActuatorByName(
+                                                                          togglePitchActuatorName);
+                                 AbstractActuator.suggestValueType(actuator,
+                                         Actuator.ActuatorValueType.Double);
+                                 togglePitchActuatorType = null;
+                             }
+                             // NOTE: all the other actuator types are actually read only, no need
+                             // to migrate.
+                             feedCountActuatorType = null;
+                             pitchActuatorType = null;
+                             statusActuatorType = null;
+                             idActuatorType = null;
+                         }
+                     });
     }
 
     @Override
@@ -144,36 +161,44 @@ public class SchultzFeeder extends ReferenceFeeder {
             Logger.warn("No actuatorName specified for feeder {}.", getName());
             return;
         }
-        Actuator actuator = nozzle.getHead().getActuatorByName(actuatorName);
+        Actuator actuator = nozzle.getHead()
+                                  .getActuatorByName(actuatorName);
         if (actuator == null) {
-            actuator = Configuration.get().getMachine().getActuatorByName(actuatorName);
+            actuator = Configuration.get()
+                                    .getMachine()
+                                    .getActuatorByName(actuatorName);
         }
         if (actuator == null) {
             throw new Exception("Feed failed. Unable to find an actuator named " + actuatorName);
         }
-        MovableUtils.moveToLocationAtSafeZ(nozzle, getPickLocation().derive(null, null, Double.NaN, null));
+        MovableUtils.moveToLocationAtSafeZ(nozzle,
+                getPickLocation().derive(null, null, Double.NaN, null));
         AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
         actuator.actuate(actuatorValue);
     }
-    
+
     @Override
     public void postPick(Nozzle nozzle) throws Exception {
         if (postPickActuatorName == null || postPickActuatorName.equals("")) {
             return;
         }
-        Actuator actuator = nozzle.getHead().getActuatorByName(postPickActuatorName);
+        Actuator actuator = nozzle.getHead()
+                                  .getActuatorByName(postPickActuatorName);
         if (actuator == null) {
-            actuator = Configuration.get().getMachine().getActuatorByName(postPickActuatorName);
+            actuator = Configuration.get()
+                                    .getMachine()
+                                    .getActuatorByName(postPickActuatorName);
         }
         if (actuator == null) {
-            throw new Exception("Post pick failed. Unable to find an actuator named " + postPickActuatorName);
+            throw new Exception(
+                    "Post pick failed. Unable to find an actuator named " + postPickActuatorName);
         }
         // TODO: check status before feed?
-        
+
         AbstractActuator.suggestValueType(actuator, Actuator.ActuatorValueType.Double);
         actuator.actuate(actuatorValue);
     }
-    
+
     public String getActuatorName() {
         return actuatorName;
     }
@@ -251,10 +276,10 @@ public class SchultzFeeder extends ReferenceFeeder {
     }
 
     public String getFiducialPart() {
-		return fiducialPart;
+        return fiducialPart;
     }
 
-	@Override
+    @Override
     public Wizard getConfigurationWizard() {
         return new SchultzFeederConfigurationWizard(this);
     }
